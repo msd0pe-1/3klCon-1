@@ -230,18 +230,18 @@ except:
 #=========================================#
 
 #directory bruteforcing 
-print(colored("\n--------------------------------------------", 'green', attrs=['bold']))
-print(colored("[+] Start directory brute-forcing", 'red', attrs=['bold']))
-print(colored("--------------------------------------------", 'green', attrs=['bold']))
-try:
-	if dir_check == "yes": 
-		subprocess.call("python3 ../tools/konan/konan.py -U live_subdomains.txt -w ../tools/konan/db/small.txt -o 200,301,302 -t 40  > directory_brute_forcing.txt", shell=True)
-	else: 
-		subprocess.call("python3 ../tools/konan/konan.py -u " + target +" -w ../tools/konan/db/small.txt -o 200,301,302 -t 20  > directory_brute_forcing.txt", shell=True)
-	print(colored("Process DONE!\nFile Name: directory_brute_forcing.txt", 'white', attrs=['bold'])) 
-except: 
-	print(colored("\nSkipping to the next step...\n" , 'white', attrs=['bold']))
-	pass
+#print(colored("\n--------------------------------------------", 'green', attrs=['bold']))
+#print(colored("[+] Start directory brute-forcing", 'red', attrs=['bold']))
+#print(colored("--------------------------------------------", 'green', attrs=['bold']))
+#try:
+#	if dir_check == "yes": 
+#		subprocess.call("python3 ../tools/konan/konan.py -U live_subdomains.txt -w ../tools/konan/db/small.txt -o 200,301,302 -t 40  > directory_brute_forcing.txt", shell=True)
+#	else: 
+#		subprocess.call("python3 ../tools/konan/konan.py -u " + target +" -w ../tools/konan/db/small.txt -o 200,301,302 -t 20  > directory_brute_forcing.txt", shell=True)
+#	print(colored("Process DONE!\nFile Name: directory_brute_forcing.txt", 'white', attrs=['bold'])) 
+#except: 
+#	print(colored("\nSkipping to the next step...\n" , 'white', attrs=['bold']))
+#	pass
 
 #=========================================#
 
@@ -255,6 +255,24 @@ try:
 except: 
 	print(colored("There's an problem in resolving subdomains, please check it again", 'white'))
 	print(colored("Skipping to the next step...\n" , 'white', attrs=['bold']))
+	pass 
+
+#=========================================#
+
+#get all available hidden direcotories from subdomains 
+print(colored("\n--------------------------------------------", 'red', attrs=['bold']))
+print(colored("[+] Start Content Discovery ", 'red', attrs=['bold']))
+print(colored("--------------------------------------------", 'red', attrs=['bold']))
+try:
+	with open("live_subdomains.txt", "r") as subdomains: 
+		for subdomain in subdomains: 
+			subprocess.call("python3 ../tools/dirsearch/dirsearch.py -u " + subdomain + " -t 100 -e * -x 500 --simple-report dirsearch_output.txt > subdomains_content_discovery.txt ", shell=True)
+	with open("altdns_output.txt", "r") as subdomains: 
+		for subdomain in subdomains: 
+			subprocess.call("python3 ../tools/dirsearch/dirsearch.py -l " + subdomain + "  -t 100 -e js,php,bak,txt,asp,aspx,jsp,html,zip,jar,sql,json,old,gz,shtml,log,swp,yaml,yml,config,save,rsa,ppk,tar -x 500 --simple-report dirsearch_output_altdns.txt > altdns_subdomains_content_discovery.txt ", shell=True) 
+	print(colored("Process DONE!\nFile's Names: subdomains_content_discovery.txt & altdns_subdomains_content_discovery.txt", 'white', attrs=['bold']))
+except: 
+	print(colored("There's an problem, please check it again", 'white'))
 	pass 
 
 #=========================================#
