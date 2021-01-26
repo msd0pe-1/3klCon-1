@@ -113,6 +113,10 @@ cd ../../../../ ;
 #install nuclei-templets 
 git clone https://github.com/projectdiscovery/nuclei-templates; 
 
+#install dirsearch 
+sudo apt-get install -y dirbuster; #to get its wordlist 
+git clone https://github.com/maurosoria/dirsearch.git;
+
 #install assetfinder 
 go get -u github.com/tomnomnom/assetfinder; 
 cp /root/go/bin/assetfinder /usr/local/bin/; 
